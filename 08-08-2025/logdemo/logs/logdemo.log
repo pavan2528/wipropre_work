@@ -1,0 +1,2 @@
+2025-08-08T12:50:02.147+05:30 ERROR 2320 --- [logdemo] [http-nio-8080-exec-1] c.w.logdemo.controller.HomeController    : --Error--
+2025-08-08T12:50:02.149+05:30  WARN 2320 --- [logdemo] [http-nio-8080-exec-1] c.w.logdemo.controller.HomeController    : --WARN--
