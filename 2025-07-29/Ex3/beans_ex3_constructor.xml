@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="department" class="ex3constructor.Department">
+        <constructor-arg value="ECE"/>
+        <constructor-arg value="Electronics"/>
+    </bean>
+
+    <bean id="college" class="ex3constructor.College">
+        <constructor-arg value="XYZ College"/>
+        <constructor-arg ref="department"/>
+    </bean>
+
+</beans>

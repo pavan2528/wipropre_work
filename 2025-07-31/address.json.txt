@@ -1,0 +1,17 @@
+{
+  "firstName": "John",
+  "isAdult": true,
+  "salary": 75000.50,
+  "numberOfBankAccounts": 2,
+  "bankAccounts": [
+    {
+      "accountNumber": "1234567890",
+      "bankName": "Bank of America"
+    },
+    {
+      "accountNumber": "9876543210",
+      "bankName": "Chase Bank"
+    }
+  ]
+}
+
