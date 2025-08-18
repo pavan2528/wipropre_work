@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Two Panels — Flexbox 4 images each</title>
+    <style>
+        :root {
+            --gap: 18px;
+            --panel-radius: 8px;
+            --panel-bg: #fff;
+            --panel-border: #191a1d;
+        }
+
+        body {
+            font-family: system-ui, Arial, sans-serif;
+            background: #f0f4f7;
+            margin: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .gallery {
+            display: flex;
+            gap: var(--gap);
+            align-items: flex-start;
+            justify-content: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .panel {
+            flex: 1 1 0;
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: var(--panel-radius);
+            padding: 18px;
+            box-shadow: 0 6px 18px rgba(18, 28, 38, 0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .panel h2 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .images {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px; 
+        }
+
+        .img-item {
+            flex: 0 0 calc(48% - 8px); 
+            border-radius: 8px;
+            overflow: hidden;
+            background: #f8fafb;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .img-item img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .caption {
+            font-size: 0.9rem;
+            color: #445;
+            margin-top: 6px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="gallery">
+        <section class="panel">
+
+            <div class="images">
+                <div class="img-item">
+                    <img src="https://m.media-amazon.com/images/I/61uud-y9SLL.jpg" alt="Image 1">
+                    <div class="caption">half gloves</div>
+                </div>
+                <div class="img-item">
+                    <img src="https://powersports.in/cdn/shop/files/Korda_Street_2.0_SF_Riding_Gloves_Grey.jpg?v=1734434385" alt="Image 2">
+                    <div class="caption">rider gloves</div>
+                </div>
+                <div class="img-item">
+                    <img src="https://www.amama.in/cdn/shop/files/Untitleddesign_24a8c125-3e95-4647-a469-1ed2b42692ae.jpg?v=1753087797&width=2048" alt="Image 3">
+                    <div class="caption">design gloves</div>
+                </div>
+                <div class="img-item">
+                    <img src="https://images-na.ssl-images-amazon.com/images/I/51b2gFxIVDL.jpg" alt="Image 4">
+                    <div class="caption">dark ghost gloves</div>
+                </div>
+            </div>
+
+        </section>
+
+        <section class="panel">
+
+            <div class="images">
+                <div class="img-item">
+                    <img src="https://m.media-amazon.com/images/I/61uOFBe4b3L._UF1000,1000_QL80_.jpg" alt="Image 5">
+                    <div class="caption">iphone</div>
+                </div>
+                <div class="img-item">
+                    <img src="https://cdn.shopify.com/s/files/1/1603/9553/files/Harmonics_Twins_S10_Mobile_headphones_best_tws_earphones_480x480.webp?v=1722323783" alt="Image 6">
+                    <div class="caption">earbuds</div>
+                </div>
+                <div class="img-item">
+                    <img src="https://t3.ftcdn.net/jpg/02/73/31/68/360_F_273316816_N9164vXl3NTl1W50Z3o2ocQmtjBAAPOO.jpg" alt="Image 7">
+                    <div class="caption">phone accesories</div>
+                </div>
+                <div class="img-item">
+                    <img src="https://fullyfilmy.in/cdn/shop/files/Man-With-A-Plan-Phone-Case-Master.png?v=1717225594" alt="Image 8">
+                    <div class="caption">back case</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+</body>
+</html>

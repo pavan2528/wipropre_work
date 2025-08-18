@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cities Dropdown</title>
+</head>
+<body>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    let cities = ["Bangalore", "Mumbai", "Chennai", "Delhi", "Hyderabad", "Kolkata"];
+
+    document.getElementById("loadCitiesBtn").addEventListener("click", function () {
+        let dropdown = document.getElementById("cityDropdown");
+
+        dropdown.length = 1;
+        let sortedCities = cities.slice().sort();
+        sortedCities.forEach(city => {
+            let option = document.createElement("option");
+            option.value = city;
+            option.textContent = city;
+            dropdown.appendChild(option);
+        });
+    });
+});
+</script>
+
+    <h2>City Dropdown</h2>
+    <button id="loadCitiesBtn">Load Cities</button>
+    <select id="cityDropdown">
+        <option value="">-- Select City --</option>
+    </select>
+</body>
+</html>

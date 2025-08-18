@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hello JavaScript</title>
+    <script>
+        function add(a,b) {
+            alert("The sum is: " + (a + b));
+        }
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("header").innerText = "Hello, JavaScript World!";
+        });
+    </script>
+        
+        <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("input").addEventListener("input", function() {
+                const letterCount = this.value.length;
+                const pendingLetters = 100 - letterCount;
+                document.getElementById("letterCountDisplay").innerText = "Letter count: " + letterCount + " (Pending: " + pendingLetters + ")";
+            });
+        });
+        </script>
+
+    </head>
+    <body>
+
+        <form>
+        <input type="text" size="50" id="input" placeholder="Enter text to get letter count">
+        <p id="letterCountDisplay">Letter count: 0</p>
+        </form>
+    
+
+    <h1 id="header">Welcome to Hello JavaScript</h1>
+    <button onclick="add(5,8)">Click Me!</button>
+
+
+</body>
+</html>

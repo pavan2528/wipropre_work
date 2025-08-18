@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Minimal Blog Post — Example</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root{
+            --max-w: 1100px;
+            --gap: 24px;
+            --bg: #f6f8fb;
+            --card: #ffffff;
+            --text: #0f1724;
+            --muted: #667085;
+            --primary: #0ea5a4;
+            --accent: #ffd166;
+            --edge: #e6eef3;
+            --font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        }
+
+        *{box-sizing: border-box;}
+        html,body{height:100%;}
+        body{
+            margin:0;
+            font-family:var(--font);
+            background:linear-gradient(180deg, var(--bg) 0%, #eef4f8 100%);
+            color:var(--text);
+            -webkit-font-smoothing:antialiased;
+            -moz-osx-font-smoothing:grayscale;
+            line-height:1.5;
+            padding:32px 20px;
+        }
+
+        .wrap{
+            width:100%;
+            max-width:var(--max-w);
+            margin:0 auto;
+            display:block;
+        }
+
+        header.site-header{
+            margin-bottom: 22px;
+            background:transparent;
+        }
+        .nav {
+            display:flex;
+            gap:12px;
+            align-items:center;
+            justify-content:space-between;
+            padding:10px 12px;
+            border-radius:10px;
+        }
+        .brand{
+            display:flex;
+            gap:10px;
+            align-items:center;
+        }
+        .logo {
+            width:44px;
+            height:44px;
+            background:var(--primary);
+            border-radius:8px;
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            color:white;
+            font-weight:700;
+            font-size:1.1rem;
+            box-shadow:0 6px 14px rgba(14,165,164,0.12);
+        }
+        nav.main-nav{
+            display:flex;
+            gap:16px;
+            align-items:center;
+            margin-left:18px;
+            flex-wrap:wrap;
+        }
+        nav.main-nav a{
+            color:var(--text);
+            text-decoration:none;
+            font-weight:600;
+            font-size:0.95rem;
+            padding:6px 10px;
+            border-radius:8px;
+        }
+        nav.main-nav a:hover{ background: rgba(14,165,164,0.08); color:var(--primary); }
+
+        .hero {
+            display:grid;
+            grid-template-columns: 1fr;
+            gap: var(--gap);
+            margin: 18px 0;
+            background: url('https://images.jdmagicbox.com/quickquotes/images_main/-foyph56n.jpg') center/cover no-repeat;
+            border-radius:12px;
+            color:white;
+            padding: 48px 28px;
+            position:relative;
+            overflow:hidden;
+        }
+        .hero::before{
+            content:"";
+            position:absolute; inset:0;
+            background: linear-gradient(to bottom right, rgba(3,7,18,0.35), rgba(3,7,18,0.12));
+            border-radius:12px;
+            pointer-events:none;
+        }
+        .hero-inner{
+            position:relative; z-index:1;
+            max-width:900px;
+        }
+        .hero .meta{
+            color:rgba(255,255,255,0.9);
+            font-weight:600;
+            display:flex;
+            gap:12px; align-items:center;
+            font-size:0.95rem;
+            margin-bottom:8px;
+        }
+        .hero h1{
+            margin:0 0 8px 0;
+            font-size:clamp(1.75rem, 2.8vw, 2.6rem);
+            line-height:1.02;
+            font-weight:700;
+            letter-spacing:-0.02em;
+        }
+        .hero .sub{
+            color: rgba(255,255,255,0.95);
+            margin:0 0 10px 0;
+            font-size:1rem;
+            max-width:720px;
+        }
+
+        .content-grid{
+            display:grid;
+            grid-template-columns: 2fr 1fr;
+            gap: var(--gap);
+            margin-top: 20px;
+        }
+
+        main.article {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 22px;
+            border: 1px solid var(--edge);
+            box-shadow: 0 8px 18px rgba(12,20,30,0.04);
+        }
+
+        .article .intro{
+            font-size: clamp(1rem, 1.6vw, 1.05rem);
+            color:var(--muted);
+            margin-bottom: 18px;
+        }
+
+        .article section.post-section{
+            margin-bottom: 22px;
+        }
+        .article h2{
+            font-size:1.15rem;
+            margin: 0 0 10px 0;
+            color:var(--text);
+        }
+        .article p{ margin:0 0 12px 0; color:var(--muted); }
+
+        .article .figure {
+            width:100%;
+            border-radius:8px;
+            overflow:hidden;
+            margin:8px 0 12px 0;
+        }
+        .article .figure img{
+            width:100%; height:270px; object-fit:cover; display:block;
+        }
+
+        .cta {
+            display:inline-block;
+            padding:12px 20px;
+            background:var(--primary);
+            color:white;
+            border-radius:10px;
+            text-decoration:none;
+            font-weight:600;
+            transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+            box-shadow: 0 8px 20px rgba(14,165,164,0.12);
+        }
+        .cta:hover{
+            transform:translateY(-3px);
+            box-shadow: 0 12px 30px rgba(14,165,164,0.16);
+            background: #089797;
+        }
+
+        aside.sidebar{
+            background: var(--card);
+            border-radius:12px;
+            padding:18px;
+            border: 1px solid var(--edge);
+            height:fit-content;
+            box-shadow: 0 8px 18px rgba(12,20,30,0.03);
+        }
+
+        .author {
+            display:flex;
+            gap:12px;
+            align-items:flex-start;
+            margin-bottom: 14px;
+        }
+        .author .avatar{
+            width:72px; height:72px; border-radius:12px; overflow:hidden;
+            flex:0 0 72px;
+        }
+        .author .avatar img{ width:100%; height:100%; object-fit:cover; display:block; }
+        .author .bio h3{ margin:0; font-size:1rem; }
+        .author .bio p{ margin:6px 0 0 0; color:var(--muted); font-size:0.9rem; }
+
+        .social-links{ display:flex; gap:8px; margin-top:10px; }
+        .social-links a{
+            display:inline-flex; align-items:center; justify-content:center;
+            width:36px;height:36px;border-radius:8px;background:var(--edge); color:var(--text);
+            text-decoration:none; font-weight:600;
+        }
+
+        .recent-posts ul{ list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:10px; }
+        .recent-posts a{ text-decoration:none; color:var(--text); font-weight:600; }
+        .recent-posts small{ display:block; color:var(--muted); font-weight:400; }
+
+        footer.site-footer{
+            margin-top:26px;
+            padding:18px 12px;
+            display:flex;
+            justify-content:space-between;
+            gap:20px;
+            align-items:center;
+            color:var(--muted);
+            font-size:0.95rem;
+        }
+        footer .social-footer a{
+            margin-left:8px;
+            text-decoration:none;
+            color:var(--text);
+            padding:8px; border-radius:8px; background:var(--edge);
+        }
+
+        .muted { color:var(--muted); font-size:0.95rem; }
+        .chip { display:inline-block; padding:6px 10px; background:rgba(255,255,255,0.08); border-radius:999px; font-weight:600; font-size:0.9rem; }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+
+        <header class="site-header">
+            <div class="nav" role="navigation" aria-label="Primary">
+                <div class="brand" aria-hidden="false">
+                    <div class="logo">B</div>
+                    <div>
+                        <div style="font-weight:700;">BlogName</div>
+                        <div style="font-size:0.8rem; color:var(--muted); margin-top:2px;">Stories & insights</div>
+                    </div>
+                </div>
+
+                <nav class="main-nav" aria-label="Main menu">
+                    <a href="#">Home</a>
+                    <a href="#">Topics</a>
+                    <a href="#">About</a>
+                    <a href="#">Contact</a>
+                </nav>
+            </div>
+        </header>
+
+        <section class="hero" role="region" aria-labelledby="post-title">
+            <div class="hero-inner">
+                <div class="meta">
+                    <span class="chip">Design</span>
+                    <span>•</span>
+                    <span>By <strong>Alex Morgan</strong></span>
+                    <span>•</span>
+                    <span>June 25, 2025</span>
+                </div>
+
+                <h1 id="post-title">Designing Minimal Product Pages: Principles & Patterns</h1>
+                <p class="sub">A short guide to building clean product landing pages with simple UI patterns and accessible interactions. This article covers layout, typography, and micro-interactions.</p>
+                <div style="margin-top:12px;">
+                    <a class="cta" href="#readmore">Read full article</a>
+                </div>
+            </div>
+        </section>
+
+        <div class="content-grid">
+
+            <main class="article" id="readmore" role="main">
+                <p class="intro">This article explains a practical approach for creating balanced, minimal product pages. We focus on layout, typography, spacing and simple components that keep the UI accessible and fast.</p>
+
+                <section class="post-section" aria-labelledby="s1">
+                    <h2 id="s1">Start with a strong hero</h2>
+                    <p>Hero sections communicate the primary value proposition — keep them focused. Use a short headline, clarifying subheading, and a primary CTA. Avoid cluttering with too many links or competing actions.</p>
+                    <div class="figure">
+                        <img src="https://images.unsplash.com/photo-1519337265831-281ec6cc8514?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.0.3&s=0a1f9ee5bfe5b6e6de9e7a8d6463d614" alt="Hero example">
+                    </div>
+                </section>
+
+                <section class="post-section" aria-labelledby="s2">
+                    <h2 id="s2">Use a clear grid for content</h2>
+                    <p>Divide the page into a content column and a sidebar for secondary items (author, recent posts). Use spacing consistently — consistent padding and gaps make the layout breathe.</p>
+                    <div class="figure">
+                        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.0.3&s=8a8e505ec8f5e3d2108d4e1bd6e2c8f4" alt="Grid layout">
+                    </div>
+                </section>
+
+                <section class="post-section" aria-labelledby="s3">
+                    <h2 id="s3">Typography & spacing</h2>
+                    <p>Choose a neutral, legible typeface and ensure adequate contrast. Use headings to break the content into scannable sections. Scale your type using relative units or CSS clamp() for responsive sizes.</p>
+
+                    <p style="margin-top:16px;">
+                        <a class="cta" href="#subscribe">Subscribe for more articles</a>
+                    </p>
+                </section>
+            </main>
+
+            <aside class="sidebar" role="complementary" aria-label="Sidebar">
+                <div class="author">
+                    <div class="avatar">
+                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=6d4f6c6f8b7ef5f3d9b1f6a7f4b3c2a1" alt="Author avatar">
+                    </div>
+                    <div class="bio">
+                        <h3>Alex Morgan</h3>
+                        <p>Design lead focused on product UX, minimal UI patterns, and performance-driven interfaces.</p>
+
+                        <div class="social-links" aria-label="Author social links">
+                            <a href="#" title="Twitter">T</a>
+                            <a href="#" title="Dribbble">D</a>
+                            <a href="#" title="LinkedIn">in</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recent-posts" style="margin-top:10px;">
+                    <h4 style="margin:0 0 10px 0;">Recent posts</h4>
+                    <ul>
+                        <li><a href="#">Design tokens for scalable UI</a><small class="muted"> • 3 days ago</small></li>
+                        <li><a href="#">Micro-interactions that delight</a><small class="muted"> • 1 week ago</small></li>
+                        <li><a href="#">Accessible color systems</a><small class="muted"> • 2 weeks ago</small></li>
+                        <li><a href="#">Performance-first frontends</a><small class="muted"> • 1 mo ago</small></li>
+                    </ul>
+                </div>
+            </aside>
+        </div>
+
+        <footer class="site-footer" role="contentinfo">
+            <div>&copy; 2025 BlogName. All rights reserved.</div>
+            <div class="social-footer" aria-label="Social media links">
+                <a href="#" title="Twitter">T</a>
+                <a href="#" title="Instagram">I</a>
+                <a href="#" title="LinkedIn">in</a>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
