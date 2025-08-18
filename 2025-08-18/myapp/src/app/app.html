@@ -1,0 +1,16 @@
+<!-- <div class="container mt-4">
+  <h2>Angular ngModel Example</h2>
+  <input type="text" [(ngModel)]="myMessage" class="form-control mb-3">
+  <p>You typed: <b>{{ myMessage }}</b></p>
+
+  <button (click)="greet()">Greet</button>
+  
+</div> -->
+<div class="container mt-4">
+  <h2>List of Names</h2>
+  <ul>
+    @for (name of names; track name) {
+      <li>{{ name }}</li>
+    }
+  </ul>
+</div>

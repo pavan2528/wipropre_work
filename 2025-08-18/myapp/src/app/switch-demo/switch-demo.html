@@ -1,0 +1,66 @@
+<!-- <div class="container mt-4">
+  <h3>Choose a color</h3>
+
+  <select class="form-select w-50" (change)="changeColor($event)">
+    <option value="" selected disabled>-- Select a color --</option>
+    @for (c of colors; track c) {
+      <option [value]="c">{{ c }}</option>
+    }
+  </select>
+
+  <p class="mt-3 fs-4" [style.color]="selectedColor">
+    This text changes color!
+  </p>
+</div> -->
+
+<div class="container mt-4">
+  <h3>Choose a color</h3>
+
+  <select [(ngModel)]="color">
+  <option value="red">Red</option>
+  <option value="green">Green</option>
+  <option value="black">Black</option>
+  <option value="blue">Blue</option>
+  <option value="default">Default</option>
+</select>
+
+@switch (color) {
+ 
+  @case ("red") {
+    <div color="red">Red Color</div>
+    <style>
+      div[color="red"] {
+        color: red;
+      }
+    </style>
+  }
+  @case ("green") {
+    <div color="green">Green Color</div>
+    <style>
+      div[color="green"] {
+        color: green;
+      }
+    </style>
+  }
+  @case ("black") {
+    <div color="black">Black Color</div>
+    <style>
+      div[color="black"] {
+        color: black;
+      }
+    </style>
+  }
+
+  @case ("blue"){
+    <div color="blue">Blue Color</div>
+    <style>
+      div[color="blue"] {
+        color: blue;
+      }
+    </style>
+  }
+  @default {
+    <div >Default Color</div>
+  }
+}
+  </div>

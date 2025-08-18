@@ -1,0 +1,16 @@
+<div class="container mt-4">
+  <h3>Search Filter Example</h3>
+
+  <input
+    type="text"
+    class="form-control mb-3"
+    placeholder="Type a name..."
+    [(ngModel)]="searchText"
+  />
+
+  <select class="form-select" size="5">
+    @for (n of filteredNames; track n) {
+      <option value="">{{ n }}</option>
+    }
+  </select>
+</div>

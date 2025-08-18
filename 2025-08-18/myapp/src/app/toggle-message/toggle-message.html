@@ -1,0 +1,23 @@
+<!-- <div class="container mt-4">
+  <label>
+    <input type="checkbox" [(ngModel)]="showMessage"> Show Message
+  </label>
+
+  @if (showMessage) {
+    <p class="mt-3 text-success">Hello! This message is toggled</p>
+  }
+</div> -->
+
+
+<div class="container mt-4">
+  <h3>Select Country</h3>
+
+  <select class="form-select w-50">
+    <option value="" selected disabled>-- Choose a country --</option>
+    @for (country of dropdownCountries; track country) {
+      <option [value]="country">{{ country }}</option>
+    }
+  </select>
+  
+  <button class="btn btn-primary mt-3" (click)="loadCountries()">Load</button>
+</div>

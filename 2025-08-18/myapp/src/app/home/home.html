@@ -1,0 +1,17 @@
+<div class="container mt-4">
+  <h2 class="mb-4">Book List</h2>
+
+  <div class="row g-3 book-row">
+    <div class="book-col" *ngFor="let book of books">
+      <div class="card h-100 text-center">
+        <img [src]="book.image" class="card-img-top" alt="{{book.title}}">
+        <div class="card-body">
+          <h6 class="card-title">{{ book.title }}</h6>
+          <p class="card-text small">{{ book.description }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
