@@ -1,0 +1,17 @@
+
+<div [ngClass]="'app1'">
+  This is styled with a single class using string.
+</div>
+
+<div [ngClass]="['app1', 'app2']">
+  This is styled with multiple classes using array.
+</div>
+
+
+<div [ngClass]="{'app1': flag1, 'app2': flag2}">
+  This is styled conditionally using object binding.
+</div>
+
+<!-- 
+<button (click)="flag1 = !flag1">Toggle app1</button>
+<button (click)="flag2 = !flag2">Toggle app2</button> -->

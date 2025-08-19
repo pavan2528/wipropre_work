@@ -1,0 +1,40 @@
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-12">
+      <app-task-list [tasks]="tasks" (remove)="removeTask($event)"></app-task-list>
+    </div>
+  </div>
+
+  <div class="row mt-4 p-3 border rounded bg-light">
+    <div class="col-12 col-md-6 mb-2">
+      <label class="form-label">Task Description</label>
+      <input [(ngModel)]="newDescription" class="form-control" placeholder="Enter task description" />
+    </div>
+
+    <div class="col-12 col-md-4 mb-2">
+      <label class="form-label">Task Category</label>
+      <select class="form-select" [(ngModel)]="newCategory">
+        @for (c of categories; track c) {
+          <option [value]="c">{{ c }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="col-12 col-md-2 d-flex align-items-end">
+      <button class="btn btn-primary w-100" (click)="addTask()">Add Task</button>
+    </div>
+  </div>
+
+  <hr />
+
+  <div class="mt-3">
+    <h6>Card preview (Task component sample)</h6>
+    @if (tasks && tasks.length) {
+      @for (t of tasks; track t.id) {
+        <app-task [task]="t"></app-task>
+      }
+    } @else {
+      <div class="text-muted">No tasks to preview</div>
+    }
+  </div>
+</div>

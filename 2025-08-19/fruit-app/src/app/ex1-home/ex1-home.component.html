@@ -1,0 +1,6 @@
+<h2>Fruit List</h2>
+<div style="display:flex; flex-wrap:wrap;">
+  @for(fruit of fruits; track $index) {
+    <app-ex5fruit [fruit]="fruit" (removeFruit)="removeFruit($event)"></app-ex5fruit>
+  }
+</div>

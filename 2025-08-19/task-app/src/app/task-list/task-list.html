@@ -1,0 +1,27 @@
+<table class="table table-striped table-bordered">
+  <thead class="table-primary">
+    <tr>
+      <th>Task Description</th>
+      <th>Category</th>
+      <th>delete</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    @if (tasks && tasks.length) {
+      @for (t of tasks; track t.id) {
+        <tr>
+          <td>{{ t.description }}</td>
+          <td>{{ t.category }}</td>
+          <td>
+            <button class="btn btn-sm btn-danger" (click)="onRemoveTask(t.id)">delete</button>
+          </td>
+        </tr>
+      }
+    } @else {
+      <tr>
+        <td colspan="3" class="text-center text-muted">No tasks yet. Add one below.</td>
+      </tr>
+    }
+  </tbody>
+</table>
