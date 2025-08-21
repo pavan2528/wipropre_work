@@ -1,0 +1,32 @@
+{
+  "vehicles": [
+    {
+      "id": "1",
+      "make": "Toyota",
+      "fuelType": "Petrol",
+      "model": "Corolla",
+      "price": 1500000
+    },
+    {
+      "id": "2",
+      "make": "Tesla",
+      "fuelType": "Electric",
+      "model": "Model 3",
+      "price": 350000
+    },
+    {
+      "id": "ae4b",
+      "make": "Honda",
+      "fuelType": "Diesel",
+      "model": "Civic",
+      "price": 180000
+    },
+    {
+      "id": 4,
+      "make": "aether",
+      "fuelType": "electric",
+      "model": "zip",
+      "price": 135000
+    }
+  ]
+}

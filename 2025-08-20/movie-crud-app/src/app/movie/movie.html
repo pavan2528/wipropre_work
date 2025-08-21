@@ -1,0 +1,35 @@
+<h2>Movie Management</h2>
+
+<!-- Add Movie -->
+<div>
+  <h3>Add New Movie</h3>
+  <input type="number" [(ngModel)]="newMovie.movieId" placeholder="Movie ID">
+  <input type="text" [(ngModel)]="newMovie.movieName" placeholder="Movie Name">
+  <input type="text" [(ngModel)]="newMovie.language" placeholder="Language">
+  <input type="number" [(ngModel)]="newMovie.imdbRating" placeholder="IMDB Rating">
+  <button (click)="addMovie()">Add Movie</button>
+</div>
+
+<hr>
+
+<!-- Update Movie -->
+<div *ngIf="editingMovie">
+  <h3>Edit Movie</h3>
+  <input type="number" [(ngModel)]="editingMovie.movieId" disabled>
+  <input type="text" [(ngModel)]="editingMovie.movieName">
+  <input type="text" [(ngModel)]="editingMovie.language">
+  <input type="number" [(ngModel)]="editingMovie.imdbRating">
+  <button (click)="updateMovie()">Update</button>
+</div>
+
+<hr>
+
+<!-- Movie List -->
+<h3>Movies List</h3>
+<ul>
+  <li *ngFor="let m of movies">
+    {{ m.movieId }} - {{ m.movieName }} ({{ m.language }}) - {{ m.imdbRating }}
+    <button (click)="editMovie(m)">Edit</button>
+    <button (click)="deleteMovie(m.movieId)">Delete</button>
+  </li>
+</ul>

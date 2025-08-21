@@ -1,0 +1,28 @@
+<h2>Uppercase Pipe Example</h2>
+<input type="text" [(ngModel)]="text" placeholder="Type something..." />
+<p>Transformed Text: {{ text | uppercase }}</p>
+
+
+
+
+<h2>Date Picker Example</h2>
+<input type="date" [(ngModel)]="selectedDate">
+@if (selectedDate) {
+  <p>Selected Date: {{ selectedDate | date:'short' }}</p>
+}
+
+
+
+<h2>Centigrade to Fahrenheit Converter</h2>
+
+<input type="number" [(ngModel)]="temperatureC" placeholder="Enter °C">
+
+<p>Fahrenheit: {{ temperatureC | celsiusToFahrenheit }}</p>
+
+
+
+<h2>Custom Directive Example</h2>
+
+<p appHighlightStrikethru>This text will be yellow and strikethrough</p>
+
+<p>This text is normal</p>
