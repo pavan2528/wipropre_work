@@ -1,0 +1,24 @@
+<!-- src/app/products/product-list.component.html -->
+<h2>Product List</h2>
+<button (click)="onAdd()">Add Product</button>
+
+<table border="1" cellpadding="6" style="margin-top:10px;">
+  <thead>
+    <tr><th>ID</th><th>Name</th><th>Category</th><th>Price</th><th>Quantity</th><th>Actions</th></tr>
+  </thead>
+  <tbody>
+    @for(p of products; track p.id){
+    <tr>
+      <td>{{p.id}}</td>
+      <td>{{p.name}}</td>
+      <td>{{p.category}}</td>
+      <td>{{p.price}}</td>
+      <td>{{p.qty}}</td>
+      <td>
+        <button (click)="onEdit(p.id)">Edit</button>
+        <button (click)="onDelete(p.id)">Delete</button>
+      </td>
+    </tr>
+}
+  </tbody>
+</table>

@@ -1,0 +1,34 @@
+<!-- src/app/products/product-form.component.html -->
+<h2>{{ isEdit ? 'Edit Product' : 'Add Product' }}</h2>
+
+<form (ngSubmit)="save()">
+    @if(isEdit){
+    <div>
+    <label>ID:
+      <input [(ngModel)]="product.id" name="id" readonly>
+    </label><br>
+    </div>
+}
+  <label>
+    Name:
+    <input [(ngModel)]="product.name" name="name" required>
+  </label><br>
+
+  <label>
+    Category:
+    <input [(ngModel)]="product.category" name="category" required>
+  </label><br>
+
+  <label>
+    Price:
+    <input type="number" [(ngModel)]="product.price" name="price" required>
+  </label>
+
+  <label>
+    Quantity:
+    <input type="number" [(ngModel)]="product.qty" name="qty" required>
+  </label><br><br>
+
+  <button type="submit">{{ isEdit ? 'Update' : 'Add' }}</button>
+  <button type="button" (click)="cancel()">Cancel</button>
+</form>

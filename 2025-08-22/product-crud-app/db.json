@@ -1,0 +1,10 @@
+{
+  "products": [
+    {
+      "id": "e315",
+      "name": "laptop",
+      "category": "electronics",
+      "price": 100000
+    }
+  ]
+}

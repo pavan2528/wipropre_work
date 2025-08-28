@@ -1,0 +1,10 @@
+<h2 style="text-align:center; margin: 20px 0;">Reverse Text Example</h2>
+
+<mat-form-field appearance="outline" style="width: 100%;">
+  <mat-label>Enter text</mat-label>
+  <input matInput [formControl]="inputControl" placeholder="Type something..." />
+</mat-form-field>
+
+<p style="margin-top: 20px; font-weight: bold; font-size: 18px;">
+  Reverse: {{ reversedText }}
+</p>
