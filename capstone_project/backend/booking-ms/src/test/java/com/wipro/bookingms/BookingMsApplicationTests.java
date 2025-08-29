@@ -1,4 +1,4 @@
-package com.wipro.booking_ms;
+package com.wipro.bookingms;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

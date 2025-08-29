@@ -1,4 +1,4 @@
-package com.wipro.flight_data_ms;
+package com.wipro.flightdatams;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,4 +1,4 @@
-package com.wipro.payment_ms;
+package com.wipro.paymentms;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
