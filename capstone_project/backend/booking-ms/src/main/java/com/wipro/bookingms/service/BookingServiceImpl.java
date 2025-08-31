@@ -37,35 +37,54 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public void initiatePayment(Long bookingId, Map<String, Object> paymentDetails) {
         Optional<Booking> optionalBooking = bookingRepository.findById(bookingId);
-        if (optionalBooking.isPresent()) {
-            Booking booking = optionalBooking.get();
-            booking.setStatus("pending");
-            bookingRepository.save(booking);
-
-            // Produce to T1 (format matching your Payment MS)
-            String message = "Booking ID: " + bookingId +
-                             ", Amount: " + paymentDetails.get("amount") +
-                             ", Method: " + paymentDetails.get("method") +
-                             ", Card Number: " + paymentDetails.get("cardNumber") +
-                             ", Card Holder: " + paymentDetails.get("nameOnCard") +
-                             ", Expiry Date: " + paymentDetails.get("expiryMonth") + "/" + paymentDetails.get("expiryYear") +
-                             ", CVV: " + paymentDetails.get("cvv");
-            kafkaTemplate.send("T1", message);
+        if (optionalBooking.isEmpty()) {
+            // Throw runtime exception — controller ExceptionHandler will convert to 404 JSON
+            throw new RuntimeException("Booking not found: " + bookingId);
         }
+
+        Booking booking = optionalBooking.get();
+        booking.setStatus("pending");
+        bookingRepository.save(booking);
+
+        // Pad month to 2 digits to be neat (Payment MS expects MM/yyyy ideally)
+        String monthRaw = paymentDetails.get("expiryMonth") != null ? String.valueOf(paymentDetails.get("expiryMonth")).trim() : null;
+        String month = monthRaw;
+        if (month != null && month.length() == 1) {
+            month = "0" + month;
+        }
+
+        String year = paymentDetails.get("expiryYear") != null ? String.valueOf(paymentDetails.get("expiryYear")).trim() : "";
+        String expiry = (month != null ? month : "") + "/" + year;
+
+        // Build message matching Payment MS parsing expectations
+        String message = "Booking ID: " + bookingId +
+                ", Amount: " + paymentDetails.get("amount") +
+                ", Method: " + paymentDetails.get("method") +
+                ", Card Number: " + paymentDetails.get("cardNumber") +
+                ", Card Holder: " + paymentDetails.get("nameOnCard") +
+                ", Expiry Date: " + expiry +
+                ", CVV: " + paymentDetails.get("cvv");
+
+        kafkaTemplate.send("T1", message);
     }
 
     @KafkaListener(topics = "T2", groupId = "booking-group")
     public void updateStatusFromT2(String message) {
         // Parse message from T2 (format: "Booking ID: 1, Status: successful")
-        String[] parts = message.split(",");
-        Long bookingId = Long.parseLong(parts[0].split(":")[1].trim());
-        String status = parts[1].split(":")[1].trim();
+        try {
+            String[] parts = message.split(",");
+            Long bookingId = Long.parseLong(parts[0].split(":")[1].trim());
+            String status = parts[1].split(":")[1].trim();
 
-        Optional<Booking> optionalBooking = bookingRepository.findById(bookingId);
-        if (optionalBooking.isPresent()) {
-            Booking booking = optionalBooking.get();
-            booking.setStatus(status);
-            bookingRepository.save(booking);
+            Optional<Booking> optionalBooking = bookingRepository.findById(bookingId);
+            if (optionalBooking.isPresent()) {
+                Booking booking = optionalBooking.get();
+                booking.setStatus(status);
+                bookingRepository.save(booking);
+            }
+        } catch (Exception ex) {
+            // Log or ignore malformed T2 messages — do not crash the listener
+            System.err.println("Failed to parse T2 message: " + message + " -> " + ex.getMessage());
         }
     }
 

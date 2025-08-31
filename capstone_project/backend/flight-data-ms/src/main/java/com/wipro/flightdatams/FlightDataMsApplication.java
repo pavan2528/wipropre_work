@@ -1,20 +1,20 @@
 package com.wipro.flightdatams;
 
-import org.springframework.boot.CommandLineRunner;
+//import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.context.annotation.Bean;
-import com.wipro.flightdatams.model.Flight;
-import com.wipro.flightdatams.repository.FlightRepository;
+//import org.springframework.context.annotation.Bean;
+//import com.wipro.flightdatams.model.Flight;
+//import com.wipro.flightdatams.repository.FlightRepository;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
+//import java.time.LocalDate;
+//import java.time.LocalTime;
+//import java.time.temporal.ChronoUnit;
+//import java.util.ArrayList;
+//import java.util.List;
+//import java.util.Random;
+//import java.util.concurrent.ThreadLocalRandom;
 
 @SpringBootApplication
 @EnableDiscoveryClient
