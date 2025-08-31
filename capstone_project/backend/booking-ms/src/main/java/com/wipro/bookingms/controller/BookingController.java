@@ -1,30 +1,97 @@
 package com.wipro.bookingms.controller;
 
+import com.wipro.bookingms.dto.FlightDto;
 import com.wipro.bookingms.model.Booking;
 import com.wipro.bookingms.model.Passenger;
 import com.wipro.bookingms.service.BookingService;
+import com.wipro.bookingms.service.FlightLookupService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/booking")
 @Tag(name = "Booking API", description = "Endpoints for booking management")
 public class BookingController {
 
-    @Autowired
-    private BookingService bookingService;
+@Autowired
+private BookingService bookingService;
 
-    @PostMapping("/create")
-    @Operation(summary = "Create a booking with user details")
-    public ResponseEntity<Booking> createBooking(@RequestParam Long flightId, @RequestBody Passenger passenger) {
-        Booking booking = bookingService.createBooking(flightId, passenger);
-        return ResponseEntity.ok(booking);
+@Autowired
+private FlightLookupService flightLookupService;
+
+@PostMapping("/create")
+@Operation(summary = "Create a booking with user details")
+@ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Booking created"),
+        @ApiResponse(responseCode = "400", description = "Invalid input")
+})
+public ResponseEntity<Booking> createBooking(@RequestParam Long flightId, @RequestBody Passenger passenger) {
+    Booking booking = bookingService.createBooking(flightId, passenger);
+    return ResponseEntity.ok(booking);
+}
+
+@PostMapping("/payments")
+@Operation(summary = "Initiate payment for a booking")
+@ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Payment initiated"),
+        @ApiResponse(responseCode = "404", description = "Booking not found")
+})
+public ResponseEntity<String> initiatePayment(@RequestParam Long bookingId, @RequestBody Map<String, Object> paymentDetails) {
+    bookingService.initiatePayment(bookingId, paymentDetails);
+    return ResponseEntity.ok("Payment initiated");
+}
+
+@GetMapping("/bookings/{id}")
+@Operation(summary = "Get booking by ID")
+@ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Booking found"),
+        @ApiResponse(responseCode = "404", description = "Booking not found")
+})
+public ResponseEntity<Booking> getBookingById(@PathVariable Long id) {
+    Booking booking = bookingService.getBookingById(id);
+    if (booking == null) {
+        return ResponseEntity.notFound().build();
     }
+    return ResponseEntity.ok(booking);
+}
+
+@GetMapping("/bookings/{id}/status")
+@Operation(summary = "Get booking status (JSON)")
+@ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Status returned"),
+        @ApiResponse(responseCode = "404", description = "Booking not found")
+})
+public ResponseEntity<Map<String, String>> getBookingStatus(@PathVariable Long id) {
+    String status = bookingService.getBookingStatus(id);
+    if (status == null) {
+        return ResponseEntity.notFound().build();
+    }
+    Map<String, String> body = new HashMap<>();
+    body.put("status", status);
+    return ResponseEntity.ok(body);
+}
+
+@GetMapping("/search")
+@Operation(summary = "Search flights (aggregated via Booking MS)")
+@ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "List of matching flights (possibly empty)")
+})
+public ResponseEntity<List<FlightDto>> search(
+        @RequestParam String origin,
+        @RequestParam String destination,
+        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+    List<FlightDto> list = flightLookupService.searchFlights(origin, destination, date);
+    return ResponseEntity.ok(list);
+}
 }

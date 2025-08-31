@@ -1,0 +1,35 @@
+<div class="container mt-4"> 
+    <h4>Payment (Booking ID: {{bookingId}})</h4> 
+    <div class="card p-3"> 
+        <div class="row g-2"> 
+            <div class="col-md-4"> 
+                <label class="form-label">Card Number</label> 
+                <input class="form-control" [(ngModel)]="payment.cardNumber" placeholder="16 digits"> 
+            </div> 
+            <div class="col-md-4"> 
+                <label class="form-label">Name on Card</label> 
+                <input class="form-control" [(ngModel)]="payment.nameOnCard"> 
+            </div> 
+            <div class="col-md-2"> 
+                <label class="form-label">Expiry Month</label> 
+                <input class="form-control" [(ngModel)]="payment.expiryMonth" placeholder="MM"> 
+            </div> 
+            <div class="col-md-2"> 
+                <label class="form-label">Expiry Year</label> 
+                <input class="form-control" [(ngModel)]="payment.expiryYear" placeholder="YYYY"> 
+            </div> 
+            <div class="col-md-2"> 
+                <label class="form-label">CVV</label> 
+                <input class="form-control" [(ngModel)]="payment.cvv" placeholder="123"> 
+            </div> 
+            <div class="col-md-3"> 
+                <label class="form-label">Amount (₹)</label> 
+                <input class="form-control" type="number" [(ngModel)]="payment.amount"> 
+            </div> 
+        </div>
+
+        <button class="btn btn-success mt-3" (click)="pay()" [disabled]="loading">
+            {{ loading ? 'Processing...' : 'Pay' }}
+        </button>
+    </div> 
+</div>

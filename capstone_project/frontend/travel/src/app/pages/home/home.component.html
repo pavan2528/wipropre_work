@@ -1,0 +1,53 @@
+<div class="container mt-5">
+  <h2>Flight Search</h2>
+  <form (ngSubmit)="searchFlights()">
+    <div class="row">
+      <div class="col-md-3 position-relative">
+        <mat-form-field>
+          <mat-label>From</mat-label>
+          <input matInput [(ngModel)]="origin" name="origin" placeholder="e.g., Kolkata (CCU)" required [minlength]="3" (input)="filterFrom(origin)">
+        </mat-form-field>
+        @if (filteredFrom.length > 0) {
+          <ul class="list-group position-absolute w-100" style="z-index: 1000; max-height: 200px; overflow-y: auto;">
+            @for (a of filteredFrom; track a.code) {
+              <li class="list-group-item" (click)="selectFrom(a)">
+                {{a.city}} ({{a.code}}) - {{a.airport}}
+              </li>
+            }
+          </ul>
+        }
+      </div>
+      <div class="col-md-1 d-flex align-items-center justify-content-center">
+        <button type="button" class="btn btn-outline-secondary" (click)="swapLocations()">
+          <i class="fas fa-exchange-alt"></i> ⇄
+        </button>
+      </div>
+      <div class="col-md-3 position-relative">
+        <mat-form-field>
+          <mat-label>To</mat-label>
+          <input matInput [(ngModel)]="destination" name="destination" placeholder="e.g., Chennai" required [minlength]="3" (input)="filterTo(destination)">
+        </mat-form-field>
+        @if (filteredTo.length > 0) {
+          <ul class="list-group position-absolute w-100" style="z-index: 1000; max-height: 200px; overflow-y: auto;">
+            @for (a of filteredTo; track a.code) {
+              <li class="list-group-item" (click)="selectTo(a)">
+                {{a.city}} ({{a.code}}) - {{a.airport}}
+              </li>
+            }
+          </ul>
+        }
+      </div>
+      <div class="col-md-3">
+        <mat-form-field>
+          <mat-label>Travel Date</mat-label>
+          <input matInput [matDatepicker]="picker" [(ngModel)]="date" name="date" required [min]="minDate">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker [startAt]="minDate"></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-md-2">
+        <button type="submit" class="btn btn-primary mt-3">Search</button>
+      </div>
+    </div>
+  </form>
+</div>

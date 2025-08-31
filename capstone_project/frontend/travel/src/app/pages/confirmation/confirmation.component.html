@@ -1,0 +1,22 @@
+@if (booking; as b) {
+
+<div class="container mt-4"> <h4>Payment Successful</h4>
+
+    <div #ticket class="card p-3 my-3">
+  <h5>E-Ticket</h5>
+
+  <div><strong>Booking ID:</strong> {{ b.id }}</div>
+  <div><strong>Flight ID:</strong> {{ b.flightId }}</div>
+
+  <div class="mt-2">
+    <strong>Passenger:</strong> {{ b.passenger.fullName }} ({{ b.passenger.gender }})
+  </div>
+  <div><strong>Email:</strong> {{ b.passenger.email }}</div>
+  <div><strong>Phone:</strong> {{ b.passenger.phoneNumber }}</div>
+
+  <div class="mt-2"><em>Status:</em> {{ b.status }}</div>
+</div>
+
+<button class="btn btn-primary" (click)="downloadPdf()">Download Ticket (PDF)</button>
+
+</div> } @else { <div class="container mt-4">Loading booking...</div> }

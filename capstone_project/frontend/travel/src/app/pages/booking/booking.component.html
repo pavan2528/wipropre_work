@@ -1,0 +1,36 @@
+@if (flight && passenger) {
+  <div class="container my-4">
+    <h2>Review Your Booking</h2>
+    <div class="card flight-card p-3 mb-3">
+      <h3>Flight Details</h3>
+      <p><strong>Airline:</strong> {{flight.airline}}</p>
+      <p><strong>Flight Number:</strong> {{flight.flightNumber}}</p>
+      <p><strong>From:</strong> {{flight.origin}} <strong>To:</strong> {{flight.destination}}</p>
+      <p><strong>Departure:</strong> {{flight.departureDate}} at {{flight.departureTime}}</p>
+      <p><strong>Arrival:</strong> {{flight.departureDate}} at {{flight.arrivalTime}}</p> <!-- Assuming same day -->
+      <p><strong>Duration:</strong> {{flight.durationMinutes | duration}}</p>
+      <p><strong>Stops:</strong> {{flight.stops}}</p>
+      <p><strong>Price:</strong> ₹{{flight.price}}</p>
+    </div>
+    <div class="card passenger-card p-3 mb-3">
+      <h3>Passenger Details</h3>
+      <p><strong>Name:</strong> {{passenger.fullName}}</p>
+      <p><strong>Date of Birth:</strong> {{passenger.dateOfBirth}}</p>
+      <p><strong>Gender:</strong> {{passenger.gender}}</p>
+      <p><strong>Email:</strong> {{passenger.email}}</p>
+      <p><strong>Phone:</strong> {{passenger.phoneNumber}}</p>
+      <p><strong>Address:</strong> {{passenger.address}}</p>
+      <p><strong>Passport ID:</strong> {{passenger.passportId}}</p>
+      <p><strong>Special Requests:</strong> {{passenger.specialRequests || 'None'}}</p>
+    </div>
+    <button class="btn btn-primary" (click)="proceedToPay()" [disabled]="loading">
+      @if (loading) {
+        Processing...
+      } @else {
+        Proceed to Pay
+      }
+    </button>
+  </div>
+} @else {
+  <p>Loading booking details...</p>
+}
