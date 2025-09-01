@@ -4,5 +4,5 @@ export interface Booking {
     id: number;
     flightId: number;
     status: string;
-    passenger: Passenger;
+    passengers: Passenger[];
 }

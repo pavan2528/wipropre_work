@@ -1,75 +1,132 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
+import { AIRPORTS } from '../../components/shared/airports';
+
+type AirportOption = { city: string; code: string; name: string };
 
 @Component({
-  selector: 'app-home',
-  standalone: true,
-  imports: [CommonModule, FormsModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule],
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+selector: 'app-home',
+standalone: true,
+imports: [CommonModule, FormsModule],
+templateUrl: './home.component.html',
+styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-  origin: string = '';
-  destination: string = '';
-  date: Date = new Date();
-  minDate: Date = new Date(); 
+// Build airport list from shared constants
+allAirports: AirportOption[] = Object.entries(AIRPORTS).map(([city, a]) => ({
+city, code: a.code, name: a.name
+}));
 
-  airports = [
-    { code: 'CCU', city: 'Kolkata', airport: 'Netaji Subhas Chandra Bose Intl' },
-    { code: 'MAA', city: 'Chennai', airport: 'Chennai International Airport' },
-    { code: 'BLR', city: 'Bangalore', airport: 'Kempegowda International Airport' },
-    { code: 'DEL', city: 'New Delhi', airport: 'Indira Gandhi International Airport' },
-    { code: 'BOM', city: 'Mumbai', airport: 'Chhatrapati Shivaji Maharaj Intl' }
-  ];
-  filteredFrom: any[] = [];
-  filteredTo: any[] = [];
+fromText = '';
+toText = '';
+fromSel: AirportOption | null = null;
+toSel: AirportOption | null = null;
 
-  constructor(private router: Router) {}
+fromResults: AirportOption[] = [];
+toResults: AirportOption[] = [];
+showFrom = false;
+showTo = false;
 
-  filterFrom(value: string) {
-    const lowerValue = value.toLowerCase();
-    this.filteredFrom = this.airports.filter(a => a.city.toLowerCase().includes(lowerValue) || a.code.toLowerCase().includes(lowerValue));
-  }
+today = new Date();
+minDateStr = this.toIso(this.today);
+dateStr = this.minDateStr;
 
-  filterTo(value: string) {
-    const lowerValue = value.toLowerCase();
-    this.filteredTo = this.airports.filter(a => a.city.toLowerCase().includes(lowerValue) || a.code.toLowerCase().includes(lowerValue));
-  }
+submitted = false;
+readonly maxSuggestions = 12;
 
-  selectFrom(a: any) {
-    this.origin = `${a.city} (${a.code})`;  // Show full "City (Code)" in input
-    this.filteredFrom = [];
-  }
+constructor(private router: Router) {}
 
-  selectTo(a: any) {
-    this.destination = `${a.city} (${a.code})`;  // Show full "City (Code)" in input
-    this.filteredTo = [];
-  }
-
-  swapLocations() {
-    const temp = this.origin;
-    this.origin = this.destination;
-    this.destination = temp;
-  }
-
-  searchFlights() {
-    if (this.origin.length < 3 || this.destination.length < 3) {
-      alert('Please enter at least 3 characters for From and To.');
-      return;
-    }
-    // Extract city from "City (Code)" for backend (backend expects city)
-    const originCity = this.origin.split(' (')[0];
-    const destinationCity = this.destination.split(' (')[0];
-  // Format date in local timezone to avoid shifting to previous day (no UTC conversion)
-  const formattedDate = `${this.date.getFullYear()}-${String(this.date.getMonth() + 1).padStart(2, '0')}-${String(this.date.getDate()).padStart(2, '0')}`;
-    this.router.navigate(['/flight-results'], {
-      queryParams: { origin: originCity, destination: destinationCity, date: formattedDate }
-    });
-  }
+private toIso(d: Date): string {
+const yyyy = d.getFullYear();
+const mm = String(d.getMonth() + 1).padStart(2, '0');
+const dd = String(d.getDate()).padStart(2, '0');
+return `${yyyy}-${mm}-${dd}`;
 }
+
+// No minimum length; show full list when term is empty
+private filterAirports(term: string): AirportOption[] {
+const t = term.trim().toLowerCase();
+const list = !t
+? this.allAirports
+: this.allAirports.filter(a =>
+a.city.toLowerCase().includes(t) ||
+a.code.toLowerCase().includes(t) ||
+a.name.toLowerCase().includes(t)
+);
+return list.slice(0, this.maxSuggestions);
+}
+
+onFromFocus() {
+this.fromResults = this.filterAirports(this.fromText);
+this.showFrom = true;
+}
+onToFocus() {
+this.toResults = this.filterAirports(this.toText);
+this.showTo = true;
+}
+
+onFromInput(v: string) {
+this.fromText = v;
+this.fromSel = null;
+this.fromResults = this.filterAirports(v);
+this.showFrom = true;
+}
+onToInput(v: string) {
+this.toText = v;
+this.toSel = null;
+this.toResults = this.filterAirports(v);
+this.showTo = true;
+}
+
+chooseFrom(a: AirportOption) {
+this.fromSel = a;
+this.fromText = `${a.city} (${a.code})`;
+this.showFrom = false;
+}
+chooseTo(a: AirportOption) {
+this.toSel = a;
+this.toText = `${a.city} (${a.code})`;
+this.showTo = false;
+}
+
+swap() {
+const f = this.fromSel, t = this.toSel;
+const ft = this.fromText, tt = this.toText;
+this.fromSel = t; this.toSel = f;
+this.fromText = tt; this.toText = ft;
+}
+
+dateValid(): boolean {
+return !!this.dateStr && this.dateStr >= this.minDateStr;
+}
+
+formValid(): boolean {
+return !!(this.fromSel && this.toSel && this.fromSel.city !== this.toSel.city && this.dateValid());
+}
+
+submit() {
+this.submitted = true;
+	this.closeLists();
+if (!this.formValid()) return;
+this.router.navigate(['/flight-results'], {
+queryParams: {
+origin: this.fromSel!.city,
+destination: this.toSel!.city,
+date: this.dateStr
+}
+});
+}
+
+closeLists() {
+this.showFrom = false;
+this.showTo = false;
+}
+
+// Keep lists open when clicking inside card
+stopClose(e: Event) {
+e.stopPropagation();
+}
+}
+

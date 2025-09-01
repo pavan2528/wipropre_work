@@ -37,8 +37,8 @@ public class BookingController {
             @ApiResponse(responseCode = "200", description = "Booking created"),
             @ApiResponse(responseCode = "400", description = "Invalid input")
     })
-    public ResponseEntity<Booking> createBooking(@RequestParam Long flightId, @RequestBody Passenger passenger) {
-        Booking booking = bookingService.createBooking(flightId, passenger);
+    public ResponseEntity<Booking> createBooking(@RequestParam Long flightId, @RequestBody List<Passenger> passengers) {
+        Booking booking = bookingService.createBooking(flightId, passengers);
         return ResponseEntity.ok(booking);
     }
 
@@ -50,7 +50,7 @@ public class BookingController {
             @ApiResponse(responseCode = "404", description = "Booking not found")
     })
     public ResponseEntity<Map<String, Object>> initiatePayment(@RequestParam Long bookingId,
-                                                               @RequestBody Map<String, Object> paymentDetails) {
+            @RequestBody Map<String, Object> paymentDetails) {
         bookingService.initiatePayment(bookingId, paymentDetails);
 
         Map<String, Object> body = new HashMap<>();

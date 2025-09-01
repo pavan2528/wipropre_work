@@ -1,9 +1,7 @@
 package com.wipro.bookingms.service;
 
 import com.wipro.bookingms.model.Booking;
-import com.wipro.bookingms.model.Passenger;
 import com.wipro.bookingms.repository.BookingRepository;
-import com.wipro.bookingms.repository.PassengerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -18,19 +16,17 @@ public class BookingServiceImpl implements BookingService {
     @Autowired
     private BookingRepository bookingRepository;
 
-    @Autowired
-    private PassengerRepository passengerRepository;
+    // PassengerRepository no longer needed directly; cascade from Booking
 
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;
 
     @Override
-    public Booking createBooking(Long flightId, Passenger passenger) {
-        Passenger savedPassenger = passengerRepository.save(passenger);
+    public Booking createBooking(Long flightId, java.util.List<com.wipro.bookingms.model.Passenger> passengers) {
         Booking booking = new Booking();
         booking.setFlightId(flightId);
-        booking.setPassenger(savedPassenger);
         booking.setStatus("initiated");
+        booking.setPassengers(passengers);
         return bookingRepository.save(booking);
     }
 
@@ -38,7 +34,8 @@ public class BookingServiceImpl implements BookingService {
     public void initiatePayment(Long bookingId, Map<String, Object> paymentDetails) {
         Optional<Booking> optionalBooking = bookingRepository.findById(bookingId);
         if (optionalBooking.isEmpty()) {
-            // Throw runtime exception — controller ExceptionHandler will convert to 404 JSON
+            // Throw runtime exception — controller ExceptionHandler will convert to 404
+            // JSON
             throw new RuntimeException("Booking not found: " + bookingId);
         }
 
@@ -47,13 +44,16 @@ public class BookingServiceImpl implements BookingService {
         bookingRepository.save(booking);
 
         // Pad month to 2 digits to be neat (Payment MS expects MM/yyyy ideally)
-        String monthRaw = paymentDetails.get("expiryMonth") != null ? String.valueOf(paymentDetails.get("expiryMonth")).trim() : null;
+        String monthRaw = paymentDetails.get("expiryMonth") != null
+                ? String.valueOf(paymentDetails.get("expiryMonth")).trim()
+                : null;
         String month = monthRaw;
         if (month != null && month.length() == 1) {
             month = "0" + month;
         }
 
-        String year = paymentDetails.get("expiryYear") != null ? String.valueOf(paymentDetails.get("expiryYear")).trim() : "";
+        String year = paymentDetails.get("expiryYear") != null ? String.valueOf(paymentDetails.get("expiryYear")).trim()
+                : "";
         String expiry = (month != null ? month : "") + "/" + year;
 
         // Build message matching Payment MS parsing expectations

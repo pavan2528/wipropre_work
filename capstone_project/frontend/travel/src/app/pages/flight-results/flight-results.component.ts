@@ -88,8 +88,13 @@ export class FlightResultsComponent implements OnInit {
     this.applyFilters();
   }
 
+  // book(f: Flight) {
+  //   localStorage.setItem('selectedFlight', JSON.stringify(f));
+  //   this.router.navigate(['/passenger-details']);
+  // }
+
   book(f: Flight) {
-    localStorage.setItem('selectedFlight', JSON.stringify(f));
-    this.router.navigate(['/passenger-details']);
-  }
+localStorage.setItem('selectedFlight', JSON.stringify(f));
+this.router.navigate(['/booking'], { queryParams: { flightId: f.id } });
+}
 }

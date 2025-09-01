@@ -12,8 +12,8 @@ import { Passenger } from '../models/passenger.model';
 export class BookingService {
   constructor(private api: ApiService) {}
 
-  createBooking(flightId: number, passenger: Passenger): Observable<Booking> {
-    return this.api.post<Booking>(environment.endpoints.createBooking, passenger, { flightId });
+  createBooking(flightId: number, passengers: Passenger[]): Observable<Booking> {
+    return this.api.post<Booking>(environment.endpoints.createBooking, passengers, { flightId });
   }
 
   getBookingById(id: number): Observable<Booking> {

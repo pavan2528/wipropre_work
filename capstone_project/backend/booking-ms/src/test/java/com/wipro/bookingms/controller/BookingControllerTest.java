@@ -26,14 +26,15 @@ public class BookingControllerTest {
 
     @Test
     public void testCreateBooking() throws Exception {
-        Passenger passenger = new Passenger();
+        java.util.List<Passenger> passengers = new java.util.ArrayList<>();
+        passengers.add(new Passenger());
         Booking booking = new Booking();
         booking.setId(1L);
-        when(bookingService.createBooking(1L, passenger)).thenReturn(booking);
+        when(bookingService.createBooking(1L, passengers)).thenReturn(booking);
 
         mockMvc.perform(post("/booking/create?flightId=1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"fullName\":\"John Doe\"}"))  // Sample body
+                .content("[{\"fullName\":\"John Doe\"}]")) // Sample body as array
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1));
     }
